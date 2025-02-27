@@ -32,7 +32,7 @@ public class CandidateScraper {
       String url,
       String category,
       String state,
-      String gender) throws IOException {
+      String gender, String language) throws IOException {
     Candidate existingCandidate = candidateRepository.findByUrl(url);
     if (existingCandidate != null) {
       return new ApiResponse(
@@ -48,6 +48,7 @@ public class CandidateScraper {
     candidate.setCategory(category);
     candidate.setGender(gender);
     candidate.setState(state);
+    candidate.setLanguage(language);
 
     Element rollNumberElement = doc
         .select("table tbody tr td:contains(Roll Number)")
@@ -146,7 +147,7 @@ public class CandidateScraper {
 
     Elements sec = doc.select("div.section-cntnr");
     // Elements sectionNames = sec.select(
-    //     "div.section-cntnr section-lbl:contains(Section :)");
+    // "div.section-cntnr section-lbl:contains(Section :)");
     // String sectNm = sectionNames.text();
     for (int k = 0; k < sec.size(); k++) {
       Element srow = sec.get(k);
@@ -157,7 +158,7 @@ public class CandidateScraper {
       Integer notAttempted = 0;
 
       Element sectionLabel = srow.selectFirst("div.section-lbl span.bold");
-    String sectNm = sectionLabel != null ? sectionLabel.text() : "Unknown Section";
+      String sectNm = sectionLabel != null ? sectionLabel.text() : "Unknown Section";
 
       Elements qustn = srow.select("div.question-pnl");
       for (int j = 0; j < qustn.size(); j++) {

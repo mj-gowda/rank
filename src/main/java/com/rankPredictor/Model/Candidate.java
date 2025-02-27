@@ -43,11 +43,11 @@ public class Candidate {
   private Integer totalRight;
   private Integer totalWrong;
   private Integer totalNotAttempted;
+  private String language;
 
   public void calculateTotalMarks() {
     if (sections != null) {
-      this.totalMarks =
-        sections.stream().mapToDouble(Section::getTotalMarks).sum();
+      this.totalMarks = sections.stream().mapToDouble(Section::getTotalMarks).sum();
     } else {
       this.totalMarks = 1.0;
     }

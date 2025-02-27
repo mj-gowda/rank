@@ -31,20 +31,19 @@ public class CandidateController {
   // @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/scrape")
   public ApiResponse scrapeCandidateData(
-    @RequestParam String url,
-    @RequestParam String category,
-    @RequestParam String state,
-    @RequestParam String gender
-  ) throws IOException {
-    return candidateService.scrapeCandidateData(url, category, state, gender);
+      @RequestParam String url,
+      @RequestParam String category,
+      @RequestParam String state,
+      @RequestParam String gender,
+      @RequestParam String language) throws IOException {
+    return candidateService.scrapeCandidateData(url, category, state, gender, language);
   }
 
   @GetMapping({ "", "/" })
   public ApiResponse getCandidateById(
-    @RequestParam(required = false) String rollNum,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "20") int size
-  ) {
+      @RequestParam(required = false) String rollNum,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
     if (rollNum != null) {
       return candidateService2.getCandidateById(rollNum);
     } else {
@@ -56,15 +55,13 @@ public class CandidateController {
   public ApiResponse getCandidateRank(@RequestParam String rollNum) {
     Candidate candidate = candidateRepository.findById(rollNum).orElse(null);
 
-   
     return candidateService2.getRankForCandidate(candidate);
   }
 
   @GetMapping("/rankByCategory")
   public ApiResponse getCandidateByCategoryRank(
-    @RequestParam String category,
-    @RequestParam String rollNum
-  ) {
+      @RequestParam String category,
+      @RequestParam String rollNum) {
     Candidate candidate = candidateRepository.findById(rollNum).orElse(null);
 
     return candidateService2.getRankForCandidateByCategory(candidate, candidate.getCategory());
@@ -72,9 +69,8 @@ public class CandidateController {
 
   @GetMapping("/rankByGender")
   public ApiResponse getCandidateByGenderRank(
-    @RequestParam String gender,
-    @RequestParam String rollNum
-  ) {
+      @RequestParam String gender,
+      @RequestParam String rollNum) {
     Candidate candidate = candidateRepository.findById(rollNum).orElse(null);
 
     return candidateService2.getRankForCandidateByGender(candidate, candidate.getGender());
@@ -82,13 +78,13 @@ public class CandidateController {
 
   @GetMapping("/rankByCategoryAndGender")
   public ApiResponse getCandidateByCategoryRankGender(
-    @RequestParam String category,
-    @RequestParam String rollNum,
-    @RequestParam String gender
-  ) {
+      @RequestParam String category,
+      @RequestParam String rollNum,
+      @RequestParam String gender) {
     Candidate candidate = candidateRepository.findById(rollNum).orElse(null);
 
-    return candidateService2.getRankForCandidateByCategoryAndGender(candidate, candidate.getCategory(),candidate.getGender());
+    return candidateService2.getRankForCandidateByCategoryAndGender(candidate, candidate.getCategory(),
+        candidate.getGender());
   }
 
 }
